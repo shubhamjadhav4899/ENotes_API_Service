@@ -1,5 +1,7 @@
 package com.shubzz.controller;
 
+import com.shubzz.dto.CategoryDto;
+import com.shubzz.dto.CategoryResponse;
 import com.shubzz.entity.Category;
 import com.shubzz.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,8 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
     @PostMapping("/save-category")
-    public ResponseEntity<?> saveCategory(@RequestBody Category category){
-        Boolean saveCategory = categoryService.saveCategory(category);
+    public ResponseEntity<?> saveCategory(@RequestBody CategoryDto categoryDto){
+        Boolean saveCategory = categoryService.saveCategory(categoryDto);
         if(saveCategory)
             return  new ResponseEntity<>("Save Success", HttpStatus.CREATED);
         else
@@ -26,7 +28,15 @@ public class CategoryController {
     }
     @GetMapping("/category")
     public ResponseEntity<?> getAllCategory(){
-        List<Category> allCategory = categoryService.getAllCategory();
+        List<CategoryDto> allCategory = categoryService.getAllCategory();
+        if(CollectionUtils.isEmpty(allCategory))
+            return ResponseEntity.noContent().build();
+        else
+            return  new ResponseEntity<>(allCategory,HttpStatus.OK);
+    }
+    @GetMapping("/active-category")
+    public ResponseEntity<?> getActiveCategory(){
+        List<CategoryResponse> allCategory = categoryService.getActiveCategory();
         if(CollectionUtils.isEmpty(allCategory))
             return ResponseEntity.noContent().build();
         else
