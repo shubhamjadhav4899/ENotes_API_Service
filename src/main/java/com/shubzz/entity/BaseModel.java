@@ -9,7 +9,7 @@ import java.util.Date;
 @Setter
 @MappedSuperclass
 public class BaseModel {
-    private boolean isActive;
+    private boolean active;
     private boolean isDeleted;
     private Integer createdBy;
     private Date createdOn;
